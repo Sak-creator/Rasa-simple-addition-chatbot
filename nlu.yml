@@ -1,0 +1,35 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - Hi
+    - Hello
+    - Hey
+    - Good morning
+
+- intent: add_numbers
+  examples: |
+    - Can you add {number1} and {number2}?
+    - What's the sum of {number1} and {number2}?
+    - Add {number1} to {number2}
+    - Calculate {number1} plus {number2}
+
+- intent: goodbye
+  examples: |
+    - Goodbye
+    - Bye
+    - See you later
+    - Take care
+
+- regex: number1
+  examples: |
+    - \d+
+    - \d+(\.\d+)?
+    - {number1}
+
+- regex: number2
+  examples: |
+    - \d+
+    - \d+(\.\d+)?
+    - {number2}

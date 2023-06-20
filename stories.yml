@@ -1,0 +1,27 @@
+
+version: "3.1"
+
+stories:
+- story: User greets and asks to add numbers
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: add_numbers
+  - action: action_add_numbers
+
+- story: User asks to add numbers
+  steps:
+  - intent: add_numbers
+  - action: action_add_numbers
+
+- story: User provides numbers to add
+  steps:
+  - intent: add_numbers
+  - action: action_add_numbers
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: User says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
