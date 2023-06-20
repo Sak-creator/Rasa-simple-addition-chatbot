@@ -1,0 +1,92 @@
+version: "3.1"
+
+intents:
+  - greet
+  - add_numbers
+  - goodbye
+
+entities:
+  - number1
+  - number2
+
+slots:
+  number1:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+    entity: number1
+    conditions:
+    - active_loop: add_numbers_form
+    requested_slot: number1
+  number2:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+    entity: number2
+    conditions:
+    - active_loop: add_numbers_form
+    requested_slot: number2
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+
+  utter_ask_number1:
+    - text: "Please provide the first number."
+
+  utter_ask_number2:
+    - text: "Great! Now, please provide the second number."
+
+  utter_sum_result:
+    - text: "The sum of {number1} and {number2} is {result}."
+
+  utter_missing_numbers:
+    - text: "I'm sorry, I didn't receive both numbers to add. Please provide both numbers."
+
+  utter_invalid_numbers:
+    - text: "I'm sorry, the numbers provided are not valid. Please provide valid numbers."
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day!"
+
+actions:
+  - action_add_numbers
+
+forms:
+  add_numbers_form:
+    required_slots:
+    - number1
+    - number2
+  
+
+rules:
+  - rule: Handle greet intent
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - rule: Handle goodbye intent
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Handle add_numbers intent
+    steps:
+      - intent: add_numbers
+      - action: add_numbers_form
+      - active_loop: add_numbers_form
+
+  - rule: Submit form and perform addition
+    condition:
+      - active_loop: add_numbers_form
+    steps:
+      - action: add_numbers_form
+      - active_loop: null
+      - action: action_add_numbers
+      - action: utter_sum_result
+
+session_config:
+  session_expiration_time: 60  # value in minutes
+  carry_over_slots_to_new_session: true
